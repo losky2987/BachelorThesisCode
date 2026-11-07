@@ -14,38 +14,48 @@
   <img src="https://img.shields.io/badge/license-GPLv3-orange.svg">
 </p>
 
+## Thsis
+Title: A Shared Memory Rendering Architecture for D3OS Window Manager
+
+Studium: Bachelor of Science, Informatik (Computer Science)
+
 ## Node of Code
 Use branch __development__ at commit <a href="https://github.com/hhu-bsinfo/D3OS/tree/feb8c8a8c3450dcc4f5af1b72d7ee400278db9e2">feb8c8a</a>.
 
-No more update except ``open_objects.rs`` and ``return_vals.rs`` from repository.
+## Changed Part
+new process-based Graphical Applications with prefix "gapp_" in Folder `os/application`.
 
-## Operation History
+new common library `gui` for Graphical Applications and Window Manager in Folder `os/library`.
 
-add ``os/library/ipc``
+modified Window Manager in Folder `os/applicaiton/window_manager`.
 
-add ``os/libaray/gui``
+## Important Date
+Registry: 25. May 2026.
 
-add ``os/application/ipc_test``
+Deadline: 25. August 2026.
 
-split ``window_manager``, ``apps`` move to ``os/application``, ``components`` move to ``os/library/gui``. __WindowManager__ only as compositor like Wayland.
+Final Submit: 23. August 2026.
+
+## Note
+Thesis + Oral Presentation at 18. September 2026.
+
+End Note: 1.3 (Very Good)
 
 ## Requirements
 
 For building D3OS, the following packages for Debian/Ubuntu based systems (or their equivalent packages on other distributions) need to be installed:
+
+For Ubuntu 24.04:
 ```bash
 apt install rustup build-essential nasm dosfstools wget qemu-system-x86
 ```
 
-This has been tested on Ubuntu 24.04.
-
-For macOS, the same can be achieved with:
+For MacOS 14:
 ```bash
 xcode-select --install
 brew install rustup dosfstools nasm x86_64-elf-gcc gnu-tar wget qemu
 brew link --force rustup
 ```
-
-This has been tested on macOS 14.
 
 [rustup](https://rustup.rs/) will download a _rust nightly_ toolchain on the first compile.
 
@@ -57,16 +67,15 @@ cargo install --no-default-features cargo-make cargo-license
 
 ## Build and Run
 
-To build D3OS and run it in QEMU, just execute:
+To build D3OS and run it in QEMU (DEBUG mode), just execute:
 ```bash
 cargo make --no-workspace
 ```
 
-To build a release version of D3OS (much faster) and run it in QEMU, just execute:
+To build D3OS and run it in QEMU (RELEASE mode), just execute:
 ```bash
 cargo make --no-workspace --profile production
 ```
-
 
 To only build the bootable image _d3os.img_, run:
 ```bash
