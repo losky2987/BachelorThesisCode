@@ -1,0 +1,43 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "os/kernel",
+    "os/application/about",
+    "os/application/hello",
+    "os/application/helloc",
+    "os/application/shell",
+    "os/application/legacy_shell",
+    "os/application/uptime",
+    "os/application/date",
+    "os/application/ls",
+    "os/application/heaptest",
+    "os/application/threadtest",
+    "os/application/filetest",
+    "os/application/nc",
+    "os/application/ping",
+    "os/application/ip",
+    "os/application/peanut-gb",
+    "os/application/pipetest",
+    "os/application/ps",
+    "os/application/window_manager",
+    "os/application/terminal_emulator",
+    "os/application/keytest",
+    "os/application/netperf",
+    "os/application/shmtest",
+    "os/application/logtest",
+
+    "os/application/gapp_bitmap",
+    "os/application/gapp_calculator",
+    "os/application/gapp_canvas",
+    "os/application/gapp_clock",
+    "os/application/gapp_counter",
+    "os/application/gapp_editor",
+    "os/application/gapp_layout",
+    "os/application/gapp_radio",
+    "os/application/gapp_slider",
+    "os/application/gapp_submit_label",
+]
+
+# [profile.release]
+# debug = true

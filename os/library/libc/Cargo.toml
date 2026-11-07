@@ -1,0 +1,20 @@
+[package]
+edition = "2024"
+name = "libc"
+version = "0.1.0"
+authors = ["Fabian Ruhland <ruhland@hhu.de>", "Gökhan Cöpcü <goeki40@gmail.com>"]
+
+[lib]
+test = true
+doctest = false
+bench = false
+
+[dependencies]
+# Local dependencies
+syscall = { path = "../syscall" }
+terminal = { path = "../terminal" }
+naming = { path = "../../library/naming" }
+
+# External dependencies
+spin = "0.10.0"
+printf-compat = { version = "0.3.0", default-features = false }

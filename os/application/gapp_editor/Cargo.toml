@@ -1,0 +1,28 @@
+[package]
+edition = "2024"
+name = "editor"
+version = "0.1.0"
+
+[lib]
+name = "gapp_editor"
+crate-type = ["staticlib"]
+path = "src/editor.rs"
+test = false
+doctest = false
+bench = false
+
+[features]
+default = ["with_runtime"]
+with_runtime = []
+
+[dependencies]
+runtime = { path = "../../library/runtime" }
+gui = { path = "../../library/gui" }
+drawer = { path = "../../library/drawer" }
+graphic = { path = "../../library/graphic" }
+terminal = { path = "../../library/terminal" }
+text_buffer = { path = "../../library/text_buffer" }
+syntax = { path = "../../library/syntax" }
+spin = "0.9.8"
+log = "0.4.26"
+pulldown-cmark = { git = "https://github.com/pulldown-cmark/pulldown-cmark.git", version = "0.13.0", default-features = false, features = ["hashbrown"] }

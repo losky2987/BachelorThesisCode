@@ -1,0 +1,65 @@
+[config]
+skip_core_tasks = true
+skip_git_env_info = true
+skip_rust_env_info = true
+
+[env.development]
+CARGO_CFG_TARGET_FAMILY = "${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/d3os_application.json"
+BUILD_DIRECTORY = "${CARGO_MAKE_CRATE_TARGET_DIRECTORY}/d3os_application/debug"
+CARGO_BUILD_OPTION = "--lib"
+
+[env.production]
+CARGO_CFG_TARGET_FAMILY = "${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/d3os_application.json"
+BUILD_DIRECTORY = "${CARGO_MAKE_CRATE_TARGET_DIRECTORY}/d3os_application/release"
+CARGO_BUILD_OPTION = "--release"
+
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+RUST_TARGET_PATH = "${CARGO_MAKE_WORKING_DIRECTORY}"
+SOURCE_DIRECTORY = "${CARGO_MAKE_WORKING_DIRECTORY}/src"
+LIBRARY_DIRECTORY = "${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/os/library"
+LINKER_FILE = "${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/os/application/link.ld"
+# Every graphical package uses a `gapp_<package>` static-library target.
+RUST_OBJECT = "${BUILD_DIRECTORY}/libgapp_${CARGO_MAKE_CRATE_NAME}.a"
+# The package name is the executable name expected by the window manager
+# (`editor`), so Cargo crate metadata must stay enabled for this value.
+APPLICATION = "${INITRD_DIRECTORY}/bin/${CARGO_MAKE_CRATE_NAME}"
+RUSTFLAGS = "-C target-cpu=x86-64-v3"
+
+[tasks.default]
+alias = "link"
+
+[tasks.compile]
+command = "cargo"
+args = [ "build", "-Z", "build-std=core,alloc", "-Z", "build-std-features=compiler-builtins-mem", "--target", "${CARGO_CFG_TARGET_FAMILY}", "${CARGO_BUILD_OPTION}" ]
+condition = { files_modified = { input = [
+    "${CARGO_MAKE_WORKING_DIRECTORY}/Cargo.toml", "${SOURCE_DIRECTORY}/**/*.rs",
+    "${LIBRARY_DIRECTORY}/gui/Cargo.toml", "${LIBRARY_DIRECTORY}/gui/src/**/*.rs",
+    "${LIBRARY_DIRECTORY}/runtime/Cargo.toml", "${LIBRARY_DIRECTORY}/runtime/src/**/*.rs",
+    "${LIBRARY_DIRECTORY}/concurrent/Cargo.toml", "${LIBRARY_DIRECTORY}/concurrent/src/**/*.rs" ], output = [ "${BUILD_DIRECTORY}/libgapp_${CARGO_MAKE_CRATE_NAME}*" ] } }
+
+[tasks.link]
+command = "${LINKER}"
+args = [ "-s", "-n", "-T", "${LINKER_FILE}", "-o", "${APPLICATION}", "${RUST_OBJECT}", "-z", "noexecstack" ]
+dependencies = [ "compile" ]
+condition = { files_modified = { input = [
+    "${BUILD_DIRECTORY}/libgapp_${CARGO_MAKE_CRATE_NAME}*", "${LINKER_FILE}",
+    "${CARGO_MAKE_WORKING_DIRECTORY}/Makefile.toml",
+    "${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/os/application/GApp_Makefile.toml" ], output = [ "${APPLICATION}" ] } }
+
+[tasks.check]
+command = "cargo"
+args = [ "check", "-Z", "build-std=core,alloc", "-Z", "build-std-features=compiler-builtins-mem", "--target", "${CARGO_CFG_TARGET_FAMILY}", "${CARGO_BUILD_OPTION}" ]
+
+[tasks.clippy]
+command = "cargo"
+args = [ "clippy", "-Z", "build-std=core,alloc", "-Z", "build-std-features=compiler-builtins-mem", "--target", "${CARGO_CFG_TARGET_FAMILY}", "${CARGO_BUILD_OPTION}" ]
+
+[tasks.clean]
+command = "cargo"
+args = [ "clean" ]
+dependencies = [ "remove-application" ]
+
+[tasks.remove-application]
+command = "rm"
+args = [ "-f", "${APPLICATION}" ]

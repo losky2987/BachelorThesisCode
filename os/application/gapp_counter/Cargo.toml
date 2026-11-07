@@ -1,0 +1,18 @@
+[package]
+edition = "2024"
+name = "counter"
+version = "0.1.0"
+
+[lib]
+name = "gapp_counter"
+crate-type = ["staticlib"]
+path = "src/counter.rs"
+test = false
+doctest = false
+bench = false
+
+[dependencies]
+runtime = { path = "../../library/runtime" }
+gui = { path = "../../library/gui" }
+drawer = { path = "../../library/drawer" }
+spin = "0.9.8"

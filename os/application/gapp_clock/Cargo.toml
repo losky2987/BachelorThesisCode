@@ -1,0 +1,18 @@
+[package]
+edition = "2024"
+name = "clock"
+version = "0.1.0"
+
+[lib]
+name = "gapp_clock"
+crate-type = ["staticlib"]
+path = "src/clock.rs"
+test = false
+doctest = false
+bench = false
+
+[dependencies]
+runtime = { path = "../../library/runtime" }
+gui = { path = "../../library/gui" }
+drawer = { path = "../../library/drawer" }
+time = { path = "../../library/time" }

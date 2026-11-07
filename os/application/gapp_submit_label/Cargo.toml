@@ -1,0 +1,17 @@
+[package]
+edition = "2024"
+name = "submit_label"
+version = "0.1.0"
+
+[lib]
+name = "gapp_submit_label"
+crate-type = ["staticlib"]
+path = "src/submit_label.rs"
+test = false
+doctest = false
+bench = false
+
+[dependencies]
+runtime = { path = "../../library/runtime" }
+gui = { path = "../../library/gui" }
+drawer = { path = "../../library/drawer" }

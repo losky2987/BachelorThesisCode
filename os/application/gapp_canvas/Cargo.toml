@@ -1,0 +1,20 @@
+[package]
+edition = "2024"
+name = "canvas"
+version = "0.1.0"
+
+[lib]
+name = "gapp_canvas"
+crate-type = ["staticlib"]
+path = "src/canvas.rs"
+test = false
+doctest = false
+bench = false
+
+[dependencies]
+runtime = { path = "../../library/runtime" }
+gui = { path = "../../library/gui" }
+drawer = { path = "../../library/drawer" }
+graphic = { path = "../../library/graphic" }
+terminal = { path = "../../library/terminal" }
+spin = "0.9.8"
